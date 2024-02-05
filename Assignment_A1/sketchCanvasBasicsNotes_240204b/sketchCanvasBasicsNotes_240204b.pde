@@ -9,4 +9,7 @@ void setup(){
 void draw(){
   println(frameCount);
   background(220); // Can use hex values, but need a # in front of them
+  
+  point(150, 150);
+  line(100, 100, 200, 100); // each 2 numbers are a point
 }
