@@ -15,6 +15,14 @@ void draw(){
   int stripe1Y = 100;
   int stripe2X = 100;
   int stripe2Y = 310;
+  int tria1AX = 350;
+  int tria1AY = 400;
+  int tria1BX = 600;
+  int tria1BY = 200;
+  int tria2AX = 350;
+  int tria2AY = 400;
+  int tria2BX = 600;
+  int tria2BY = 200;
   
   // Outer Outline
   line(300, 100, 700, 100);
@@ -57,6 +65,22 @@ void draw(){
     line(stripe2X, stripe2Y, stripe2X, 700);
     stripe2X += 5;
     stripe2Y += 10;
+  }
+  
+  while (tria1AY < 700){
+    triangle(500, 700, tria1AX, tria1AY, tria1BX, tria1BY);
+    tria1AX += 2;
+    tria1AY += 4;
+    tria1BX -= 1;
+    tria1BY += 5;
+  }
+  
+  while (tria2AY > 300){
+    triangle(300, 300, tria2AX, tria2AY, tria2BX, tria2BY);
+    tria2AX -= 2;
+    tria2AY -= 4;
+    tria2BX -= 3;
+    tria2BY += 2;
   }
   
   // Output
