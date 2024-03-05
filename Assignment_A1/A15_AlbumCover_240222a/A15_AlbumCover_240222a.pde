@@ -314,4 +314,9 @@ void draw(){
   text("REBEL SCUM & TASHA BAXTER", 0, -360);
   textFont(VenusB);
   text("ENDGAME", 0, -300);
+  
+  // output
+  if (frameCount == 1){
+    save("AlbumCover.png");
+  }
 }
