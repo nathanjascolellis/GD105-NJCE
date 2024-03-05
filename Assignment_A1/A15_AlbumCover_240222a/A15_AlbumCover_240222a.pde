@@ -23,6 +23,12 @@ void draw(){
   translate(400, 500);
   
   // initialize variables
+  int windowHL = 0;
+  int windowHR = -54;
+  int windowL = 226;
+  int windowR = 379;
+  int barX = -340;
+  int barY = -125;
   int gradDiam = 600;
   int gradAlpha = 0;
   color gradColor = #d8614d; 
@@ -45,6 +51,50 @@ void draw(){
   quad(60, 190, 90, 180, 90, 300, 60, 300);
   quad(110, 205, 145, 195, 145, 300, 110, 300);
   quad(60, 250, 200, 230, 200, 300, 60, 300);
+  
+  
+  // front buildings
+  fill(#761b02);
+  stroke(#761b02); 
+  quad(220, -110, 370, -160, 400, 300, 250, 300);
+  
+  fill(#410f00);
+  stroke(#410f00);
+  quad(224, -57, 375, -113, 376, -79, 225, -21);
+  
+  while(windowHL < 260){
+    quad(windowL, windowHL, windowR, windowHR, (windowR + 1), (windowHR + 20), (windowL+ 1), (windowHL + 20));
+    windowHL += 36;
+    windowHR += 45;
+    windowL += 3;
+    windowR += 3;
+  }
+  
+  fill(#2f0c00);
+  stroke(#2f0c00);
+  triangle(370, -160, 400, -150, 400, 300);
+  
+  fill(#410f00);
+  stroke(#410f00); 
+  quad(-210, -85, -340, -125, -370, 300, -230, 300);
+  
+  fill(#973c24);
+  stroke(#973c24);
+  quad(-210, -85, -340, -125, -341, -119, -211, -79);
+  quad(-211, -55, -341, -92, -342, -86, -212, -49);
+  quad(-220, 130, -350, 110, -351, 102, -221, 123);
+  
+  fill(#2f0c00);
+  stroke(#2f0c00);
+  quad(-340, -125, -400, -100, -400, 300, -360, 300);
+  
+  fill(#761b02);
+  stroke(#761b02);
+  while(barX <= -210){
+    quad(barX, barY, (barX + 4), barY, (barX - 16), 300, (barX - 20), 300);
+    barX += 10;
+    barY += 3;
+  }
   
   // gradient
   noStroke();
@@ -222,6 +272,19 @@ void draw(){
   line(-11, -185, 11, -185);
   line(11, -185, 21, -181);
   line(-11, -185, -21, -181);
+  line(5, -158, 4, -170);
+  line(-5, -158, -4, -170);
+  line(4, -170, 7, -185);
+  line(-4, -170, -7, -185);
+  line(3, -185, 2, -197);
+  line(-3, -185, -2, -197);
+  line(19, -155, 17, -168);
+  line(-19, -155, -17, -168);
+  line(23, -154, 21, -167);
+  line(-23, -154, -21, -167);
+  line(15, -184, 14, -196);
+  line(-15, -184, -14, -196);
+  line(21, -167, 15, -184);
   
   // UFO eye glow
   noStroke();
