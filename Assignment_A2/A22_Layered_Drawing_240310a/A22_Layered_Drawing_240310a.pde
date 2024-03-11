@@ -6,20 +6,22 @@
 // tell it to stop when it gets to the end of the lists
 IntList drawX;
 IntList drawY;
-int strokeRed = 165;
+int strokeRed = 180;
 int strokeGrn = 0;
 int strokeBlu = 0;
+int drawProg = 1;
 
 void setup(){
   // initialize background
   size(800, 700);
   background(255);
+  frameRate(40);
 }
 
 void draw(){
   // initialize lists
   drawX = new IntList();
-  drawX.append(600);
+  drawX.append(593);
   drawX.append(637);
   drawX.append(688);
   drawX.append(651);
@@ -85,7 +87,8 @@ void draw(){
   drawX.append(591);
   drawX.append(553);
   drawX.append(622);
-  drawX.append(599);
+  drawX.append(591);
+  drawX.append(593);
   
   drawY = new IntList();
   drawY.append(290);
@@ -154,7 +157,8 @@ void draw(){
   drawY.append(238);
   drawY.append(216);
   drawY.append(207);
-  drawY.append(237);
+  drawY.append(238);
+  drawY.append(290);
   
   // stroke settings
   noFill();
@@ -163,19 +167,24 @@ void draw(){
   
   // update stroke color
   if(strokeRed > 0 && strokeBlu == 0){
-    strokeRed -= 15;
-    strokeGrn += 15;
+    strokeRed -= 30;
+    strokeGrn += 30;
   } else if(strokeGrn > 0 && strokeRed == 0){
-    strokeGrn -= 15;
-    strokeBlu += 15;
+    strokeGrn -= 30;
+    strokeBlu += 30;
   } else if(strokeBlu > 0 && strokeGrn == 0){
-    strokeBlu -= 15;
-    strokeRed += 15;
+    strokeBlu -= 30;
+    strokeRed += 30;
   }
   
   // draw cat
-  if(frameCount < drawX.size() && frameCount < drawY.size()){
-    line(drawX.get(frameCount-1), drawY.get(frameCount-1), drawX.get(frameCount), drawY.get(frameCount));
+  line(drawX.get(drawProg-1), drawY.get(drawProg-1), drawX.get(drawProg), drawY.get(drawProg));
+  
+  // progress report
+  drawProg += 1;
+  
+  if(drawProg == drawX.size() && drawProg == drawY.size()){
+    drawProg = 1;
   }
   
   // output
