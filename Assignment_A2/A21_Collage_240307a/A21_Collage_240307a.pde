@@ -38,7 +38,7 @@ void draw(){
   int yPos = 0;
   int fnScale = 160;
   
-  while(yPos < 800 && fnScale > 0){
+  while(yPos < 800 && fnScale > 25){
     bouquet(flor1, fan1, yPos, fnScale);
     yPos += (fnScale*0.75);
     fnScale -= 15;
@@ -48,6 +48,11 @@ void draw(){
     bouquet(flor3, fan3, yPos, fnScale);
     yPos += (fnScale*0.75);
     fnScale -= 15;
+  }
+  
+  // output
+  if (frameCount == 1){
+    save("Fan_bouquet_collage.png");
   }
 }
 
