@@ -12,7 +12,7 @@ int vParallax = 0;
 
 void setup(){
   size(700, 700);
-  frameRate(10); // in case i need to look in slow motion
+  frameRate(50); // for gif making purposes
 }
 
 void draw(){
@@ -22,10 +22,14 @@ void draw(){
   // fish movement
   translate(350-leftDist, 400+downDist);
   
-  // fish tail - to be added
+  // fish tail
+  fill(#dfda8c);
+  stroke(#330055);
+  strokeWeight(30);
+  ellipse(hParallax, -250-vParallax, -(hParallax*2.5), 200);
+  point(hParallax, -350-vParallax);
   
   // fish body
-  fill(#dfda8c);
   stroke(#220022);
   strokeWeight(4);
   arc(0, 0, 500, 500, 0, PI);
@@ -70,12 +74,18 @@ void draw(){
   
   // headphones - bridge
   fill(#753103);
+  noStroke();
+  quad(-2-(hParallax*0.6), -245+(vParallax*0.6), 2-(hParallax*0.6), -245+(vParallax*0.6), 2-(hParallax*0.6), -210+(vParallax*0.6), -2-(hParallax*0.6), -210+(vParallax*0.6));
   
   stroke(#a54403);
   arc(0-(hParallax*0.6), -70+(vParallax*0.6), 400+(hParallax*0.2), 350, PI*1.1, PI*1.5);
   arc(0-(hParallax*0.6), -70+(vParallax*0.6), 400-(hParallax*0.2), 350, PI*1.5, PI*1.9);
   
   fill(#330055);
+  noStroke();
+  quad(-2-(hParallax*0.6), -40+(vParallax*0.6), 2-(hParallax*0.6), -40+(vParallax*0.6), 2-(hParallax*0.6), -210+(vParallax*0.6), -2-(hParallax*0.6), -210+(vParallax*0.6));
+  
+  stroke(#a54403);
   arc(0-(hParallax*0.6), -40+(vParallax*0.6), 340+(hParallax*0.6), 340, PI*1.14, PI*1.5);
   arc(0-(hParallax*0.6), -40+(vParallax*0.6), 340-(hParallax*0.6), 340, PI*1.5, PI*1.86);
   
@@ -181,6 +191,10 @@ void draw(){
     vParallax-=2;
   }
   
+  // output
+  if(frameCount <= 40){
+    saveFrame("frames/##.png");
+  }
 }
 
 void spikeDraw(int aX, int aY, int bX, int bY, int cX, int cY, float r){
