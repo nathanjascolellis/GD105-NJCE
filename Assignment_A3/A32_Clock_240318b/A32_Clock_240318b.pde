@@ -27,6 +27,8 @@ void draw(){
   // initialize variables for dynamic page
   float botX = 300-(second()*10)-frameC;
   float topX = 210-(second()*7)-(frameC*0.7);
+  float botY = 390+(abs(botX)*0.2);
+  float topY = 88+(abs(topX)*0.2);
   
   // desk (replace with a photo later)
   noStroke();
@@ -101,19 +103,25 @@ void draw(){
   fill(80, 50, 10);
   textSize(40);
   textAlign(CENTER);
-  text(minute()-1, -250, 480);
-  text(minute()+1, 250, 480);
+  text(minute()-1, -265, 490);
+  text(minute()+1, 265, 490);
+  
+  if(minute() != 59){
+    textSize(25);
+    textAlign(RIGHT);
+    text("Chapter " + hour(), 205, 185);
+  }
   
   // dynamic page fill
   fill(255, 241, 174);
   noStroke();
   if(botX > 0){
-    arc(topX, 190, 2*topX, 120, PI, PI*1.5);
-    triangle(topX, 130, botX, 450, topX, 450);
+    arc(topX, 190, 2*topX, 382-(2*topY), PI, PI*1.5);
+    triangle(topX, topY, botX, botY, topX, botY);
   }
   if(botX < 0){
-    arc(topX, 190, abs(2*topX), 120, PI*1.5, TAU);
-    triangle(topX, 130, botX, 450, topX, 450);
+    arc(topX, 190, abs(2*topX), 382-(2*topY), PI*1.5, TAU);
+    triangle(topX, topY, botX, botY, topX, botY);
   }
   if(abs(topX) > 50){
     quad(topX, 190, 0.5*topX, 190, 0.5*topX, 450, topX, 450);
@@ -122,21 +130,21 @@ void draw(){
   // extra line to fix a gap in the dyamic page
   stroke(255, 241, 174);
   strokeWeight(1);
-  line(topX, 130, topX, 450);
+  line(topX, topY, topX, botY);
   
   // dynamic page outline
   stroke(80, 50, 10);
   strokeWeight(2);
   noFill();
-  line(botX, 450, topX, 130);
+  line(botX, botY, topX, topY);
   
   if(botX > 0){
-    arc(botX, 530, 2*botX, 160, PI, PI*1.5);
-    arc(topX, 190, 2*topX, 120, PI, PI*1.5);
+    arc(botX, 530, 2*botX, 1060-(2*botY), PI, PI*1.5);
+    arc(topX, 190, 2*topX, 382-(2*topY), PI, PI*1.5);
   }
   if(botX < 0){
-    arc(botX, 530, abs(2*botX), 160, PI*1.5, TAU);
-    arc(topX, 190, abs(2*topX), 120, PI*1.5, TAU);
+    arc(botX, 530, abs(2*botX), 1060-(2*botY), PI*1.5, TAU);
+    arc(topX, 190, abs(2*topX), 382-(2*topY), PI*1.5, TAU);
   }
   
   // update page increment, unless second changes over
