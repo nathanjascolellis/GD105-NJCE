@@ -111,6 +111,11 @@ void draw(){
     textAlign(RIGHT);
     text("Chapter " + hour(), 205, 185);
   }
+  if(minute() == 59){
+    textSize(60);
+    text("CHAPTER", 150, 220);
+    text(hour(), 150, 300);
+  }
   
   // dynamic page fill
   fill(255, 241, 174);
