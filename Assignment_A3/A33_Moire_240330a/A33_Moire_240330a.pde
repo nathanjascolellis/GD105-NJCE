@@ -41,55 +41,75 @@ void draw(){
   fill(95, 207, 244);
   
   // moire lines - slower set
-  // moireLines(cardCorners[0], cardCorners[1], cardCorners[2], cardCorners[3], 0.1, 0.05, 0.05);
+  moireLines(cardCorners[0], cardCorners[1], cardCorners[2], cardCorners[3], 0.1, 0.05, 0.05);
   
   // moire lines - faster set
   moireLines(cardCorners[0], cardCorners[1], cardCorners[2], cardCorners[3], 0.2, 0.05, 0.03);
 }
 
 void moireLines(PVector a, PVector b, PVector c, PVector d, float dsplc, float sz, float buffer){
-  // increment and difference variables
-  float topEdge = b.x - a.x;
-  float botEdge = c.x - d.x;
-  float topYDiff = b.y - a.y;
-  float botYDiff = c.y - d.y;
+  // initialize variables
   dsplc = dsplc*(mouseX-400);
-  float i = a.x-dsplc;
-  float iTrue;
-  float iEnd;
-  float j = d.x-dsplc;
-  float jTrue;
-  float jEnd;
-  i = i-(topEdge*2*(sz+buffer));
-  j = j-(botEdge*2*(sz+buffer));
-  float iY = a.y;
-  float iEndY = a.y;
-  float jY = d.y;
-  float jEndY = d.y;
-  int reps = -2;
+  float alpha = -1-(dsplc/200);
   
-  // draw lines
-  while(i < b.x-1 || j < c.x-1){
-    // limiting x values to within rectangle
-    iTrue = constrain(i, a.x, b.x);
-    jTrue = constrain(j, d.x, c.x);
-    iEnd = constrain(i+(topEdge*sz), a.x, b.x);
-    jEnd = constrain(j+(botEdge*sz), d.x, c.x);
+  PVector topStart;
+  PVector botStart;
+  PVector topEnd;
+  PVector botEnd;
+  
+  float topStartX;
+  float topStartY = a.y;
+  float topEndX;
+  float topEndY = a.y;
+  float botStartX;
+  float botStartY = d.y;
+  float botEndX;
+  float botEndY = d.y;
+  
+  // draw bars
+  while(alpha < 1){
+    topStart = linterp(a, b, alpha);
+    botStart = linterp(d, c, alpha);
+    topEnd = linterp(a, b, alpha+sz);
+    botEnd = linterp(d, c, alpha+sz);
     
-    // reading x values to assign y values
-    iY = a.y+(topYDiff*reps*(sz+buffer));
-    iEndY = iY+(topYDiff*sz);
-    jY = d.y+(botYDiff*reps*(sz+buffer));
-    jEndY = jY+(botYDiff*sz);
+    topStartX = constrain(topStart.x, a.x, b.x);
+    topEndX = constrain(topEnd.x, a.x, b.x);
+    botStartX = constrain(botStart.x, d.x, c.x);
+    botEndX = constrain(botEnd.x, d.x, c.x);
     
-    // drawing rectangle, if applicable
-    if(iEnd > iTrue || jEnd > jTrue){
-      quad(iTrue, iY, iEnd, iEndY, jEnd, jEndY, jTrue, jY);
+    if(a.y < b.y){
+      topStartY = constrain(topStart.y, a.y, b.y);
+      topEndY = constrain(topEnd.y, a.y, b.y);
     }
     
-    // updating distance
-    i = i+(topEdge*(sz+buffer));
-    j = j+(botEdge*(sz+buffer));
-    reps += 1;
+    if(a.y > b.y){
+      topStartY = constrain(topStart.y, b.y, a.y);
+      topEndY = constrain(topEnd.y, b.y, a.y);
+    }
+    
+    if(d.y < c.y){
+      botStartY = constrain(botStart.y, d.y, c.y);
+      botEndY = constrain(botEnd.y, d.y, c.y);
+    }
+    
+    if(d.y > c.y){
+      botStartY = constrain(botStart.y, c.y, d.y);
+      botEndY = constrain(botEnd.y, c.y, d.y);
+    }
+    
+    if(topStartX >= a.x || botStartX >= d.x){
+      quad(topStartX, topStartY, topEndX, topEndY, botEndX, botEndY, botStartX, botStartY);
+    }
+    alpha += sz+buffer;
   }
+}
+
+// linear interpolation function
+PVector linterp(PVector a, PVector b, float p){
+  float ptX = a.x+(p*(b.x-a.x));
+  float ptY = a.y+(p*(b.y-a.y));
+  
+  PVector pt = new PVector(ptX, ptY);
+  return pt;
 }
