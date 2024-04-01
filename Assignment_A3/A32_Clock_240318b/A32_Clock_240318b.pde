@@ -30,7 +30,7 @@ void draw(){
   float botY = 390+(abs(botX)*0.2);
   float topY = 88+(abs(topX)*0.2);
   
-  // desk (replace with a photo later)
+  // desk background
   noStroke();
   fill(220, 140, 40);
   quad(0, 200, 900, 200, 900, 600, 0, 600);
@@ -155,5 +155,10 @@ void draw(){
   // update page increment, unless second changes over
   if(sec == second()){
     frameC += 10.0/frameR;
+  }
+  
+  // output
+  if(frameCount == frameR+1){
+    save("bookClock.png");
   }
 }

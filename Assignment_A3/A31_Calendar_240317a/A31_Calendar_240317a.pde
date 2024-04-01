@@ -90,4 +90,9 @@ void draw(){
   fill(230);
   quad(0, -100, 50, -100, 50, 100, 0, 100);
   quad(750, -100, 800, -100, 800, 100, 750, 100);
+  
+  // output
+  if(frameCount == 1){
+    save("sineCalendar.png");
+  }
 }
