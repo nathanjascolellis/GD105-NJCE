@@ -1,3 +1,4 @@
+// function to create a block containing text that is movable by the user
 class WordBlock{
   // variables
   String word;

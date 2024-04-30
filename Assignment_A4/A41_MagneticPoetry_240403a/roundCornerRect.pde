@@ -1,3 +1,4 @@
+// function to create a rectangle with rounded corners
 void roundCornerRect(float xPos, float yPos, float xSz, float ySz, float cornerRad, int borderSz, color fillCol, color strkCol){
   // position variable calculation
   float xStart = xPos + cornerRad;

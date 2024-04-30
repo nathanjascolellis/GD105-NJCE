@@ -1,3 +1,4 @@
+// class for the icons for each Pokemon Type tracked by the usage data
 class TypeCircle{
   // variables
   String name;
@@ -17,7 +18,7 @@ class TypeCircle{
   
   // update function
   void update(){
-    // size update (work on later)
+    // update size dynamically
     if(dynaSzMod < szMod){
       dynaSzMod += (szMod-dynaSzMod)/7;
     }
