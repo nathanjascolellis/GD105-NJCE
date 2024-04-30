@@ -17,7 +17,7 @@ class TypeCircle{
   // update function
   void update(){
     // size update (work on later)
-    float finalSz = baseSz;
+    float finalSz = baseSz*szMod;
     
     // visual creation
     noStroke();
