@@ -3,11 +3,11 @@
 // Gather Pokemon GO Regional Championship Usage Data from Fall 2022 to Spring 2024
 // Create set of shapes that represent each type
 // The more times a type occurs in the top 12 pokemon...
-// ...that type's symbol gets bigger, and other symbols move out of its way
+// ...that type's symbol gets bigger
 // Create movable scale bar to look at different times
 
 // type circle array
-TypeCircle[] types = new TypeCircle[12];
+TypeCircle[] types = new TypeCircle[18];
 
 // increment variable
 int inc;
@@ -22,18 +22,24 @@ void setup(){
   int standardSz = 80;
   
   // adding type circles to array
-  types[0] = new TypeCircle("normal", #AAAAAA, standardSz, 50, 0);
-  types[1] = new TypeCircle("fighting", #AAAAAA, standardSz, -50, 0);
-  types[2] = new TypeCircle("flying", #AAAAAA, standardSz, 0, 50);
-  types[3] = new TypeCircle("poison", #AAAAAA, standardSz, 0, -50);
-  types[4] = new TypeCircle("ground", #AAAAAA, standardSz, 150, 0);
-  types[5] = new TypeCircle("rock", #AAAAAA, standardSz, 75, 75);
-  types[6] = new TypeCircle("bug", #AAAAAA, standardSz, 0, 150);
-  types[7] = new TypeCircle("ghost", #AAAAAA, standardSz, -75, 75);
-  types[8] = new TypeCircle("steel", #AAAAAA, standardSz, -150, 0);
-  types[9] = new TypeCircle("fire", #AAAAAA, standardSz, -75, -75);
-  types[10] = new TypeCircle("water", #AAAAAA, standardSz, 0, -150);
-  types[11] = new TypeCircle("grass", #AAAAAA, standardSz, 75, -75);
+  types[0] = new TypeCircle("normal", "pkmnType-01.png", standardSz, 50, 0);
+  types[1] = new TypeCircle("fighting", "pkmnType-15.png", standardSz, -50, 0);
+  types[2] = new TypeCircle("flying", "pkmnType-02.png", standardSz, 0, 50);
+  types[3] = new TypeCircle("poison", "pkmnType-03.png", standardSz, 0, -50);
+  types[4] = new TypeCircle("ground", "pkmnType-04.png", standardSz, 150, 0);
+  types[5] = new TypeCircle("rock", "pkmnType-16.png", standardSz, 75, 75);
+  types[6] = new TypeCircle("bug", "pkmnType-05.png", standardSz, 0, 150);
+  types[7] = new TypeCircle("ghost", "pkmnType-07.png", standardSz, -75, 75);
+  types[8] = new TypeCircle("steel", "pkmnType-17.png", standardSz, -150, 0);
+  types[9] = new TypeCircle("fire", "pkmnType-18.png", standardSz, -75, -75);
+  types[10] = new TypeCircle("water", "pkmnType-08.png", standardSz, 0, -150);
+  types[11] = new TypeCircle("grass", "pkmnType-09.png", standardSz, 75, -75);
+  types[12] = new TypeCircle("electric", "pkmnType-10.png", standardSz, -175, 95);
+  types[13] = new TypeCircle("psychic", "pkmnType-11.png", standardSz, -250, 0);
+  types[14] = new TypeCircle("ice", "pkmnType-13.png", standardSz, -175, -95);
+  types[15] = new TypeCircle("dragon", "pkmnType-12.png", standardSz, 175, 95);
+  types[16] = new TypeCircle("dark", "pkmnType-06.png", standardSz, 250, 0);
+  types[17] = new TypeCircle("fairy", "pkmnType-14.png", standardSz, 175, -95);
 }
 
 void draw(){

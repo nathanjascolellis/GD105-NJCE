@@ -1,14 +1,14 @@
 class TypeCircle{
   // variables
   String name;
-  color typeCol;
+  PImage icon;
   int baseSz;
   float posX, posY;
   
   // constructor
-  TypeCircle(String n, color c, int b, float x, float y){
+  TypeCircle(String n, String i, int b, float x, float y){
     name = n;
-    typeCol = c;
+    icon = loadImage(i);
     baseSz = b;
     posX = x;
     posY = y;
@@ -21,8 +21,10 @@ class TypeCircle{
     
     // visual creation
     noStroke();
-    fill(typeCol);
+    fill(150, 255, 150, 100);
     ellipseMode(CENTER);
     ellipse(posX, posY, finalSz, finalSz);
+    imageMode(CENTER);
+    image(icon, posX, posY, finalSz, finalSz);
   }
 }
