@@ -29,9 +29,16 @@ float szMod = 1.0;
 float sliderPos = -360;
 boolean dragging = false;
 
+// font
+PFont agency;
+
 void setup(){
   size(800, 800);
   
+  // load font
+  agency = loadFont("AgencyFB-Bold-30.vlw");
+  
+  // standardize base size of type symbols
   int standardSz = 80;
   
   // read type data to table
@@ -95,7 +102,7 @@ void draw(){
   // text
   String tourneyName = tourney.getString("Tournaments");
   textAlign(CENTER);
-  textSize(30);
+  textFont(agency);
   fill(255);
   text(tourneyName, 0, -360);
   
