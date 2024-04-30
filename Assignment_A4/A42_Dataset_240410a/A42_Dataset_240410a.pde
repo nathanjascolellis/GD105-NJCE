@@ -1,10 +1,9 @@
 // Nathan Ellis 4/10/2024
 // THE PLAN IS SIMPLE:
-// Gather Pokemon GO Regional Championship Usage Data from Fall 2022 to Spring 2024
+// Gather Pokemon GO Regional Championship Usage Data from the 2024 season
 // Create set of shapes that represent each type
-// The more times a type occurs in the top 12 pokemon...
-// ...that type's symbol gets bigger
-// Create movable scale bar to look at different times
+// The more times a type occurs in the top 12 pokemon, that type's symbol gets bigger
+// Create timeline with movable slider to look at different tournaments
 // Symbols are from Pokemon GO's Medal system
 
 // type circle array
@@ -111,4 +110,11 @@ void draw(){
     szMod = tourney.getInt(types[inc].name);
     types[inc].update();
   }
+  
+  // statement used to make demonstration GIF, but it lags the program, so only uncomment if needed
+  /*
+  if(frameCount <= 180){
+    saveFrame("frames/##.png");
+  }
+  */
 }
