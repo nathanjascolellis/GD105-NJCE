@@ -86,7 +86,7 @@ class WordBlock{
       held = false;
       equipped = false;
       toggled = true;
-      // println(posX, posY); // tweak mode doesn't like me so i positioned my words like this instead
+      println(posX, posY); // tweak mode doesn't like me so i positioned my words like this instead
     }
     
     // holding code
