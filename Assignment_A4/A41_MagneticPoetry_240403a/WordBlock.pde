@@ -95,4 +95,15 @@ class WordBlock{
       equipped = true;
     }
   }
+  
+  // magnet function WIP
+  void magnet(){
+    // if statement use check
+    boolean toggled = false;
+    
+    // activate gravity when moused over
+    if(abs(centerX-mouseX) < 20 && abs(centerY-mouseY) < 20){
+      held = true;
+    }
+  }
 }

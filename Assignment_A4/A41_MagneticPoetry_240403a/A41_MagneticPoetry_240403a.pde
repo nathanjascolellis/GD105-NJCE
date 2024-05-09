@@ -133,6 +133,25 @@ void draw(){
   // initial setup
   background(93, 38, 168);
   
+  // ground
+  // ground color (expand on later)
+  color groundCol = #117700;
+  fill(groundCol);
+  noStroke();
+  ellipse(300, 720, 1200, 300);
+  quad(0, 750, 0, 900, 600, 900, 600, 750);
+  
+  // pond
+  // pond color (expand on later)
+  color pondCol = #0099DD;
+  fill(pondCol);
+  ellipse(0, 750, 800, 300);
+  
+  // tree
+  // tree color (expand on later)
+  color treeCol = #225533;
+  fill(treeCol);
+  quad(600, 299, 600, 405, 0, 891, 0, 700);
   
   // updating blocks - body
   for(inc=0; inc<body.length; inc++){
@@ -144,5 +163,11 @@ void mouseClicked(){
   // because the code runs each word block's grab function in order, the words earlier on in the original order have port priority
   for(inc=0; inc<body.length; inc++){
     body[inc].grab();
+  }
+}
+
+void mouseDragged(){
+  for(inc=0; inc<body.length; inc++){
+    body[inc].magnet();
   }
 }
