@@ -157,6 +157,13 @@ void draw(){
   for(inc=0; inc<body.length; inc++){
     body[inc].update();
   }
+  
+  // statement used to make demonstration GIF, but it lags the program, so only uncomment if needed
+  
+  if(frameCount <= 60){
+    saveFrame("frames/##.png");
+  }
+  
 }
 
 void mouseClicked(){
