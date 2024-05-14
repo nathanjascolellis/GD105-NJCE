@@ -30,6 +30,10 @@ BGStar[] backgroundStars = new BGStar[18];
 // gravity direction indicator
 String gravDir = "down";
 
+// image objects
+PImage bgGradient;
+PImage partGradient;
+
 void setup(){
   // set window size
   size(800,800);
@@ -47,6 +51,10 @@ void setup(){
   for(i=0; i<18; i++){
     backgroundStars[i] = new BGStar();
   }
+  
+  // loading images
+  bgGradient = loadImage("BGGradient.png");
+  partGradient = loadImage("particleGradient.png");
 }
 
 void draw(){
@@ -65,16 +73,8 @@ void draw(){
   }
   
   // outer gradient
-  /* 
-  // temporarily commenting this out because it made the game lag which was very sad
-  rectMode(CENTER);
-  noFill();
-  stroke(0, 20);
-  strokeWeight(20);
-  for(i=0; i<100; i++){
-    square(0, 0, 740+(2*i));
-  }
-  */
+  imageMode(CENTER);
+  image(bgGradient, 0, 0);
   
   // opening title - outline
   if(state == 0){

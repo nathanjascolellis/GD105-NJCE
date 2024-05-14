@@ -58,12 +58,8 @@ class Particle{
     circle(posX, posY, 49);
     
     // visual generation - gradient
-    fill(255, 15);
-    int gradReps = 0;
-    while(gradReps < 25){
-      circle(posX+5, posY-5, 45-(gradReps*1.5));
-      gradReps++;
-    }
+    imageMode(CENTER);
+    image(partGradient, posX+5, posY-5);
   }
   
   // particle swap: selected particle
