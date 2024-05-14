@@ -34,6 +34,13 @@ String gravDir = "down";
 PImage bgGradient;
 PImage partGradient;
 
+// time and score variables
+int timer = 61;
+int prevSec = 0;
+int match = 0;
+int score = 0;
+boolean matchingNow = false;
+
 void setup(){
   // set window size
   size(800,800);
@@ -174,6 +181,39 @@ void draw(){
     }
     for(i=0; i<64; i++){
       gameParts[i].update();
+    }
+    
+    // count down timer if needed
+    if(second() != prevSec){
+      timer--;
+      prevSec = second();
+    }
+    
+    // add match score to timer and total score
+    if(matchingNow == true){
+      // continuing match unless every particle has completed its movement
+      for(i=0; i<64; i++){
+        matchingNow = gameParts[i].moved;
+      }
+      
+      // timer and score update
+      if(matchingNow == false){
+        if(match >= 3){
+          score += match;
+          timer += match;
+        }
+        match = 0;
+      }
+    }
+    
+    // change state if timer runs out. if not, print timer
+    if(timer < 0){
+      state = 6;
+    } else {
+      textSize(35);
+      textAlign(LEFT);
+      fill(#FFFFFF);
+      text(timer, -320, -330);
     }
   }
 }
