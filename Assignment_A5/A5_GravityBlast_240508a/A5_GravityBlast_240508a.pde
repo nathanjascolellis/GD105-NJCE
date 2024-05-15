@@ -212,6 +212,16 @@ void draw(){
         if(match >= 3){
           score += match;
           timer += match;
+          // if score was gained, play the blast animation
+          for(i=0; i<64; i++){
+            if(gameParts[i].matched == true){
+              gameParts[i].blastState = 1;
+            }
+          }
+        }
+        // reset matched status
+        for(i=0; i<64; i++){
+          gameParts[i].matched = false;
         }
         match = 0;
       }

@@ -161,58 +161,59 @@ class Particle{
     if(upID != 64){
       // check if the particle above matches
       if(parType == gameParts[upID].parType){
+        // activate matched status
+        matched = true;
+        
         // check if the adjacent particle hasn't been accounted for yet
-        if(gameParts[upID].moved == false){
+        if(gameParts[upID].matched == false){
           // call this function in the particle above
-          gameParts[upID].moved = true;
           gameParts[upID].matchCheck();
         }
-        // update match value
-        match++;
-        blastState = 1;
       }
     }
     if(leftID != 64){
       // check if the particle to the left matches
       if(parType == gameParts[leftID].parType){
+        // activate matched status
+        matched = true;
+        
         // check if the adjacent particle hasn't been accounted for yet
-        if(gameParts[leftID].moved == false){
+        if(gameParts[leftID].matched == false){
           // call this function in the particle to the left
-          gameParts[leftID].moved = true;
           gameParts[leftID].matchCheck();
         }
-        // update match value
-        match++;
-        blastState = 1;
       }
     }
     if(downID != 64){
       // check if the particle below matches
       if(parType == gameParts[downID].parType){
+        // activate matched status
+        matched = true;
+        
         // check if the adjacent particle hasn't been accounted for yet
-        if(gameParts[downID].moved == false){
+        if(gameParts[downID].matched == false){
           // call this function in the particle below
-          gameParts[downID].moved = true;
           gameParts[downID].matchCheck();
         }
-        // update match value
-        match++;
-        blastState = 1;
       }
     }
     if(rightID != 64){
       // check if the particle to the right matches
       if(parType == gameParts[rightID].parType){
+        // activate matched status
+        matched = true;
+        
         // check if the adjacent particle hasn't been accounted for yet
-        if(gameParts[rightID].moved == false){
+        if(gameParts[rightID].matched == false){
           // call this function in the particle to the right
-          gameParts[rightID].moved = true;
           gameParts[rightID].matchCheck();
         }
-        // update match value
-        match++;
-        blastState = 1;
       }
+    }
+    
+    // score particle if matched, then reset matched
+    if(matched == true){
+      match++;
     }
     
     // reset moved to false
