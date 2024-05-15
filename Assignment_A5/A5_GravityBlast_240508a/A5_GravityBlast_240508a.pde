@@ -34,6 +34,9 @@ String gravDir = "down";
 PImage bgGradient;
 PImage partGradient;
 
+// blast effect image list
+PImage[] blastEffects = new PImage[6];
+
 // time and score variables
 int timer = 61;
 int prevSec = 0;
@@ -62,6 +65,14 @@ void setup(){
   // loading images
   bgGradient = loadImage("BGGradient.png");
   partGradient = loadImage("particleGradient.png");
+  
+  // loading blast effect list
+  blastEffects[0] = loadImage("BlastEffect1.png");
+  blastEffects[1] = loadImage("BlastEffect2.png");
+  blastEffects[2] = loadImage("BlastEffect3.png");
+  blastEffects[3] = loadImage("BlastEffect4.png");
+  blastEffects[4] = loadImage("BlastEffect5.png");
+  blastEffects[5] = loadImage("BlastEffect6.png");
 }
 
 void draw(){
