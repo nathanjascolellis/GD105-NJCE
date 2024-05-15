@@ -42,6 +42,7 @@ int timer = 61;
 int prevSec = 0;
 int match = 0;
 int score = 0;
+boolean movingNow = false;
 boolean matchingNow = false;
 
 void setup(){
@@ -212,10 +213,11 @@ void draw(){
         if(match >= 3){
           score += match;
           timer += match;
-          // if score was gained, play the blast animation
+          // if score was gained, run blast scripts
           for(i=0; i<64; i++){
             if(gameParts[i].matched == true){
               gameParts[i].blastState = 1;
+              gameParts[i].refill();
             }
           }
         }
@@ -248,7 +250,7 @@ void mouseClicked(){
 
 // key pressed actions
 void keyPressed(){
-  if(state == 5){
+  if(state == 5 && movingNow == false){
     for(i=0; i<64; i++){
       gameParts[i].give();
     }

@@ -1,19 +1,17 @@
 // object representing one partcile on the grid
 class Particle{
   // variables
-  int parType, posID, blastState, upID = 64, leftID = 64, downID = 64, rightID = 64;
-  boolean selected, moved, matched;
+  int parType, blastType, posID, blastState = 0, upID = 64, leftID = 64, downID = 64, rightID = 64;
+  boolean selected = false, moved = false, matched = false, refilled = false;
   color base;
-  float posX, posY;
+  float posX, posY, blastPosX, blastPosY;
   
   // constructor
   Particle(int id){
+    // variable assignment
     posID = id;
     parType = int(random(1, 7));
-    selected = false;
-    moved = false;
-    matched = false;
-    blastState = 0;
+    blastType = parType;
     
     // use particle type to assign base color
     if(parType == 1){
@@ -32,7 +30,9 @@ class Particle{
     
     // use ID to assign position in grid
     posX = -280 + ((id % 8)*80);
+    blastPosX = posX;
     posY = -280 + (int(id / 8)*80);
+    blastPosY = posY;
     
     // check if adjacent particles exist, and assign their IDs
     if(posID - 8 >= 0){
@@ -64,37 +64,54 @@ class Particle{
     
     // position correction (used during particle swap)
     if(posX > -280 + ((posID % 8)*80)){
+      // prevent a new move from starting while one is already happening
+      movingNow = true;
+      
+      //update position
       posX -= 16;
     }
     if(posX < -280 + ((posID % 8)*80)){
+      // prevent a new move from starting while one is already happening
+      movingNow = true;
+      
+      //update position
       posX += 16;
     }
     if(posY > -280 + (int(posID / 8)*80)){
+      // prevent a new move from starting while one is already happening
+      movingNow = true;
+      
+      //update position
       posY -= 16;
     }
     if(posY < -280 + (int(posID / 8)*80)){
+      // prevent a new move from starting while one is already happening
+      movingNow = true;
+      
+      //update position
       posY += 16;
     }
-    
-    // visual generation - not blasted
-    if(blastState == 0){
-      // visual generation - base
-      ellipseMode(CENTER);
-      fill(base);
-      noStroke();
-      circle(posX, posY, 49);
-      
-      // visual generation - gradient
-      imageMode(CENTER);
-      image(partGradient, posX+5, posY-5);
+    if(posX == -280 + ((posID % 8)*80) && posY == -280 + (int(posID / 8)*80)){
+      // re-enable moves when the animation is complete
+      movingNow = false;
     }
     
-    // visual generation - blasted
+    // visual generation - particle base
+    ellipseMode(CENTER);
+    fill(base);
+    noStroke();
+    circle(posX, posY, 49);
+    
+    // visual generation - gradient
+    imageMode(CENTER);
+    image(partGradient, posX+5, posY-5);
+    
+    // visual generation - blast effect
     if(blastState > 0){
       // blast effect generation
       imageMode(CENTER);
       tint(255, 200-(blastState*8));
-      image(blastEffects[(parType-1)], posX, posY);
+      image(blastEffects[(blastType-1)], blastPosX, blastPosY);
       noTint();
       // increment blast state to fade out blast effect
       blastState++;
@@ -102,6 +119,7 @@ class Particle{
       // reset blast state if it is fully faded out
       if(blastState == 26){
         blastState = 0;
+        blastType = parType;
       }
     }
     
@@ -139,6 +157,7 @@ class Particle{
         posX = goalX;
         posY = goalY;
         moved = true;
+        gameParts[goalID].moved = true;
       }
     }
   }
@@ -149,7 +168,6 @@ class Particle{
     base = gameParts[giveID].base;
     posX = gameParts[giveID].posX;
     posY = gameParts[giveID].posY;
-    moved = true;
   }
   
   // function to calculate match
@@ -211,12 +229,42 @@ class Particle{
       }
     }
     
-    // score particle if matched, then reset matched
+    // score particle if matched
     if(matched == true){
       match++;
     }
     
     // reset moved to false
     moved = false;
+  }
+  
+  // refill the board when any particles are blasted
+  void refill(){
+    // set the ID of the particle to take from
+    int goalID = posID;
+    if(gravDir == "down"){
+      while(goalID >= 8 && gameParts[goalID].matched == true){
+        goalID -= 8;
+      }
+      this.take(goalID);
+    }
+    if(gravDir == "up"){
+      while(goalID <= 55 && gameParts[goalID].matched == true){
+        goalID += 8;
+      }
+      this.take(goalID);
+    }
+    if(gravDir == "left"){
+      while((goalID+1) % 8 > 0 && gameParts[goalID].matched == true){
+        goalID ++;
+      }
+      this.take(goalID);
+    }
+    if(gravDir == "right"){
+      while(goalID % 8 > 0 && gameParts[goalID].matched == true){
+        goalID --;
+      }
+      this.take(goalID);
+    }
   }
 }
