@@ -38,13 +38,19 @@ PImage partGradient;
 PImage[] blastEffects = new PImage[6];
 
 // time and score variables
-int timer = 61;
+float timer = 61.0;
 int prevSec = 0;
 int match = 0;
 int score = 0;
 boolean movingNow = false;
 boolean matchingNow = false;
 boolean refillingNow = false;
+
+// combo variables
+float combo = 0.0;
+color comboCol = #000000;
+color pComboCol = #FFFFFF;
+boolean displayCombo = false;
 
 void setup(){
   // set window size
@@ -129,8 +135,8 @@ void draw(){
     text("GRAVITY BLAST", 0, 30);
   }
   
-  // speed select - outline
-  if(state == 2){
+  // speed select & game over screen - outline
+  if(state == 2 || state == 7){
     hStart = 0+anim;
     hFinish = 300;
     w = 400;
@@ -140,7 +146,7 @@ void draw(){
       anim += inc;
     }
   }
-  if(state == 3){
+  if(state == 3 || state == 8){
     hStart = 0+anim;
     hFinish = 0;
     w = 400;
@@ -198,7 +204,7 @@ void draw(){
     
     // count down timer if needed
     if(second() != prevSec){
-      timer--;
+      timer -= 1.0;
       prevSec = second();
     }
     
@@ -213,12 +219,13 @@ void draw(){
       if(matchingNow == false){
         if(match >= 3){
           score += match;
-          timer += match;
+          timer += match/4;
           // if score was gained, run all applicable blast and refill scripts
           refillingNow = true;
           if(gravDir == "up" || gravDir == "left"){
             for(i=0; i<64; i++){
               if(gameParts[i].matched == true){
+                comboCol = gameParts[i].base;
                 gameParts[i].blastState = 1;
                 gameParts[i].refill();
               }
@@ -235,6 +242,7 @@ void draw(){
             // run checks in reverse during certain gravity states
             for(i=63; i>=0; i--){
               if(gameParts[i].matched == true){
+                comboCol = gameParts[i].base;
                 gameParts[i].blastState = 1;
                 gameParts[i].refill();
               }
@@ -248,6 +256,19 @@ void draw(){
               }
             }
           }
+          // if applicable, break combo
+          if(comboCol != pComboCol){
+            combo = 0.0;
+          }
+          combo += 1+(float(match)/10);
+          
+          // combo meter text
+          if(comboCol == pComboCol){
+            displayCombo = true;
+          } else {
+            displayCombo = false;
+          }
+          pComboCol = comboCol;
         }
         // reset matched status
         for(i=0; i<64; i++){
@@ -257,6 +278,14 @@ void draw(){
       }
     }
     
+    // display combo if applicable
+    if(displayCombo){
+      textSize(35);
+      textAlign(RIGHT);
+      fill(comboCol);
+      text(combo + "x Combo!", 320, -330);
+    }
+    
     // change state if timer runs out. if not, print timer
     if(timer < 0){
       state = 6;
@@ -264,14 +293,65 @@ void draw(){
       textSize(35);
       textAlign(LEFT);
       fill(#FFFFFF);
-      text(timer, -320, -330);
+      text(int(timer), -320, -330);
     }
+  }
+  
+  // game over state
+  if(state == 6){
+    // border animation
+    hStart = 0+anim;
+    hFinish = 0;
+    w = 640;
+    inc = 40;
+    border(0, 0, hStart, w, 60);
+    if(hStart > hFinish){
+      anim -= inc;
+    }
+    if(hStart == hFinish){
+      state++;
+    }
+    
+    // reset particle positions because the game can end mid-move
+    for(i=0; i<64; i++){
+      gameParts[i].posX = -280 + ((i % 8)*80);
+      gameParts[i].posY = -280 + (int(i / 8)*80);
+    }
+  }
+  
+  // game over text
+  if(state == 7 && hStart == 300){
+    fill(255);
+    noStroke();
+    textSize(50);
+    textAlign(CENTER);
+    text("Game Over.", 0, -100);
+    textSize(30);
+    text("Final Score: " + score, 0, 0);
+    text("Click anywhere to retry.", 0, 50);
+  }
+  
+  if(state == 9){
+    // replay state -- resets everything and immediately jumps to title screen
+    gravDir = "down";
+    timer = 61.0;
+    prevSec = 0;
+    match = 0;
+    score = 0;
+    movingNow = false;
+    matchingNow = false;
+    refillingNow = false;
+    combo = 0.0;
+    comboCol = #000000;
+    pComboCol = #FFFFFF;
+    displayCombo = false;
+    state = 0;
   }
 }
 
 // progress state through title screen if mouse is clicked
 void mouseClicked(){
-  if(state == 0 || state == 2){
+  if(state == 0 || state == 2 || state == 7){
     state++;
   }
 }

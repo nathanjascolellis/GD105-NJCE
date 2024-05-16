@@ -124,7 +124,7 @@ class Particle{
     }
     
     // immediately match checking after a move is completed
-    if(moved && posX == -280 + ((posID % 8)*80) && posY == -280 + (int(posID / 8)*80)){
+    if(moved && state == 5 && posX == -280 + ((posID % 8)*80) && posY == -280 + (int(posID / 8)*80)){
       this.matchCheck();
     }
     
