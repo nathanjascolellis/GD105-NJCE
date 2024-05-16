@@ -127,6 +127,21 @@ class Particle{
     if(moved && posX == -280 + ((posID % 8)*80) && posY == -280 + (int(posID / 8)*80)){
       this.matchCheck();
     }
+    
+    // if the particle type changed, update its color
+    if(parType == 1){
+      base = #FF00BB;
+    } else if(parType == 2){
+      base = #FFFF00;
+    } else if(parType == 3){
+      base = #00FF00;
+    } else if(parType == 4){
+      base = #00FFFF;
+    } else if(parType == 5){
+      base = #FF7700;
+    } else if(parType == 6){
+      base = #BB00FF;
+    }
   }
   
   // particle swap: selected particle
@@ -240,31 +255,63 @@ class Particle{
   
   // refill the board when any particles are blasted
   void refill(){
-    // set the ID of the particle to take from
+    
+    // initialize the ID of the particle to take from
     int goalID = posID;
+    
+    // start replacement chain in the opposite direction of the current gravity
     if(gravDir == "down"){
-      while(goalID >= 8 && gameParts[goalID].matched == true){
+      // move goal ID up in the grid until it hits one that hasn't been refilled
+      while(goalID >= 8 && (gameParts[goalID].refilled == true || gameParts[goalID].matched == true)){
         goalID -= 8;
       }
-      this.take(goalID);
+      if(goalID < 8 && gameParts[goalID].refilled == true || goalID == posID){
+        // if a wall has been hit, create a random new particle
+        parType = int(random(1, 7));
+        posY = gameParts[goalID].posY;
+      } else {
+        // take from particle at goal ID
+        this.take(goalID);
+        gameParts[goalID].refilled = true;
+      }
     }
     if(gravDir == "up"){
-      while(goalID <= 55 && gameParts[goalID].matched == true){
+      while(goalID < 56 && (gameParts[goalID].refilled == true || gameParts[goalID].matched == true)){
         goalID += 8;
       }
-      this.take(goalID);
+      if(goalID >= 56 && gameParts[goalID].refilled == true || goalID == posID){
+        parType = int(random(1, 7));
+        posY = gameParts[goalID].posY;
+      } else {
+        this.take(goalID);
+        gameParts[goalID].refilled = true;
+      }
     }
     if(gravDir == "left"){
-      while((goalID+1) % 8 > 0 && gameParts[goalID].matched == true){
+      while((goalID + 1) % 8 > 0 && (gameParts[goalID].refilled == true || gameParts[goalID].matched == true)){
         goalID ++;
       }
-      this.take(goalID);
+      if((goalID + 1) % 8 == 0 && gameParts[goalID].refilled == true || goalID == posID){
+        parType = int(random(1, 7));
+        posY = gameParts[goalID].posY;
+      } else {
+        this.take(goalID);
+        gameParts[goalID].refilled = true;
+      }
     }
     if(gravDir == "right"){
-      while(goalID % 8 > 0 && gameParts[goalID].matched == true){
+      while(goalID % 8 > 0 && (gameParts[goalID].refilled == true || gameParts[goalID].matched == true)){
         goalID --;
       }
-      this.take(goalID);
+      if(goalID % 8 == 0 && gameParts[goalID].refilled == true || goalID == posID){
+        parType = int(random(1, 7));
+        posY = gameParts[goalID].posY;
+      } else {
+        this.take(goalID);
+        gameParts[goalID].refilled = true;
+      }
     }
+    
+    refilled = false;
   }
 }

@@ -44,6 +44,7 @@ int match = 0;
 int score = 0;
 boolean movingNow = false;
 boolean matchingNow = false;
+boolean refillingNow = false;
 
 void setup(){
   // set window size
@@ -213,11 +214,38 @@ void draw(){
         if(match >= 3){
           score += match;
           timer += match;
-          // if score was gained, run blast scripts
-          for(i=0; i<64; i++){
-            if(gameParts[i].matched == true){
-              gameParts[i].blastState = 1;
-              gameParts[i].refill();
+          // if score was gained, run all applicable blast and refill scripts
+          refillingNow = true;
+          if(gravDir == "up" || gravDir == "left"){
+            for(i=0; i<64; i++){
+              if(gameParts[i].matched == true){
+                gameParts[i].blastState = 1;
+                gameParts[i].refill();
+              }
+            }
+            while(refillingNow){
+              for(i=0; i<64; i++){
+                if(gameParts[i].refilled == true){
+                  gameParts[i].refill();
+                }
+                refillingNow = gameParts[i].refilled;
+              }
+            }
+          } else if(gravDir == "down" || gravDir == "right"){
+            // run checks in reverse during certain gravity states
+            for(i=63; i>=0; i--){
+              if(gameParts[i].matched == true){
+                gameParts[i].blastState = 1;
+                gameParts[i].refill();
+              }
+            }
+            while(refillingNow){
+              for(i=63; i>=0; i--){
+                if(gameParts[i].refilled == true){
+                  gameParts[i].refill();
+                }
+                refillingNow = gameParts[i].refilled;
+              }
             }
           }
         }
@@ -250,9 +278,14 @@ void mouseClicked(){
 
 // key pressed actions
 void keyPressed(){
+  // move a particle if gameplay is happening
   if(state == 5 && movingNow == false){
     for(i=0; i<64; i++){
       gameParts[i].give();
     }
+  }
+  // screenshot button for testing purposes
+  if(key == '1'){
+    saveFrame("frames/##.png");
   }
 }
