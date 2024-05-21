@@ -39,6 +39,7 @@ PImage[] blastEffects = new PImage[6];
 
 // time and score variables
 float timer = 61.0;
+float scoreTimeRate = 0.25;
 int prevSec = 0;
 int match = 0;
 int score = 0;
@@ -51,6 +52,16 @@ float combo = 0.0;
 color comboCol = #000000;
 color pComboCol = #FFFFFF;
 boolean displayCombo = false;
+
+// button colors
+color buttonBase = color(0, 0);
+color buttonHLight = color(150, 150);
+
+// menu buttons
+TitleButton slowSpeed = new TitleButton(0, -80, 375, 35, buttonBase, buttonHLight, "Slow");
+TitleButton mediSpeed = new TitleButton(0, -40, 375, 35, buttonBase, buttonHLight, "Medium");
+TitleButton fastSpeed = new TitleButton(0, -0, 375, 35, buttonBase, buttonHLight, "Fast");
+TitleButton turboSpeed = new TitleButton(0, 40, 375, 35, buttonBase, buttonHLight, "Turbo");
 
 void setup(){
   // set window size
@@ -160,12 +171,17 @@ void draw(){
     }
   }
   
-  // speed select - text
+  // speed select - text and buttons
   if(state == 2 && hStart == hFinish){
     textAlign(CENTER);
     textSize(30);
     fill(255);
     text("Select your Speed:", 0, -120);
+    
+    slowSpeed.update();
+    mediSpeed.update();
+    fastSpeed.update();
+    turboSpeed.update();
   }
   
   // game - outline
@@ -219,7 +235,7 @@ void draw(){
       if(matchingNow == false){
         if(match >= 3){
           score += match;
-          timer += match/4;
+          timer += match*scoreTimeRate;
           // if score was gained, run all applicable blast and refill scripts
           refillingNow = true;
           if(gravDir == "up" || gravDir == "left"){
@@ -335,6 +351,7 @@ void draw(){
     // replay state -- resets everything and immediately jumps to title screen
     gravDir = "down";
     timer = 61.0;
+    scoreTimeRate = 0.25;
     prevSec = 0;
     match = 0;
     score = 0;
@@ -349,9 +366,32 @@ void draw(){
   }
 }
 
-// progress state through title screen if mouse is clicked
+// mouse clicked actions
 void mouseClicked(){
-  if(state == 0 || state == 2 || state == 7){
+  // select "speed" aka difficulty
+  if(state == 2){
+    if(slowSpeed.selected){
+      timer = 121.0;
+      scoreTimeRate = 1;
+      state++;
+    }
+    if(mediSpeed.selected){
+      timer = 91.0;
+      scoreTimeRate = 0.5;
+      state++;
+    }
+    if(fastSpeed.selected){
+      state++;
+    }
+    if(turboSpeed.selected){
+      timer = 31.0;
+      scoreTimeRate = 0.125;
+      state++;
+    }
+  }
+  
+  // progress state through title screen and game over screen
+  if(state == 0 || state == 7){
     state++;
   }
 }
