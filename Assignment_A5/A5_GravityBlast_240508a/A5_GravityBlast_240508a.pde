@@ -264,8 +264,11 @@ void draw(){
     // add match score to timer and total score
     if(matchingNow == true){
       // continuing match unless every particle has completed its movement
+      matchingNow = false;
       for(i=0; i<64; i++){
-        matchingNow = gameParts[i].moved;
+        if(gameParts[i].moved == true){
+          matchingNow = true;
+        }
       }
       
       // timer and score update
