@@ -378,6 +378,7 @@ void draw(){
     for(i=0; i<64; i++){
       gameParts[i].posX = -280 + ((i % 8)*80);
       gameParts[i].posY = -280 + (int(i / 8)*80);
+      gameParts[i].moved = false;
     }
   }
   
@@ -446,15 +447,14 @@ void mouseClicked(){
 }
 
 // key pressed actions
-void keyPressed(){
-  // move a particle if gameplay is happening
-  if(state == 5 && movingNow == false){
+void keyPressed(){ 
+  if(key == '1'){
+    // screenshot button for testing purposes
+    saveFrame("frames/##.png");
+  } else if(state == 5 && movingNow == false){
+    // move a particle if gameplay is happening 
     for(i=0; i<64; i++){
       gameParts[i].give();
     }
-  }
-  // screenshot button for testing purposes
-  if(key == '1'){
-    saveFrame("frames/##.png");
   }
 }
