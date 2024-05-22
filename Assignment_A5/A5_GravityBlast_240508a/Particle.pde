@@ -14,19 +14,7 @@ class Particle{
     blastType = parType;
     
     // use particle type to assign base color
-    if(parType == 1){
-      base = #FF00BB;
-    } else if(parType == 2){
-      base = #FFFF00;
-    } else if(parType == 3){
-      base = #00FF00;
-    } else if(parType == 4){
-      base = #00FFFF;
-    } else if(parType == 5){
-      base = #FF7700;
-    } else if(parType == 6){
-      base = #BB00FF;
-    }
+    base = parCols[parType];
     
     // use ID to assign position in grid
     posX = -280 + ((id % 8)*80);
@@ -129,19 +117,7 @@ class Particle{
     }
     
     // if the particle type changed, update its color
-    if(parType == 1){
-      base = #FF00BB;
-    } else if(parType == 2){
-      base = #FFFF00;
-    } else if(parType == 3){
-      base = #00FF00;
-    } else if(parType == 4){
-      base = #00FFFF;
-    } else if(parType == 5){
-      base = #FF7700;
-    } else if(parType == 6){
-      base = #BB00FF;
-    }
+    base = parCols[parType];
   }
   
   // particle swap: selected particle
@@ -245,8 +221,15 @@ class Particle{
     }
     
     // score particle if matched
-    if(matched == true){
+    if(matched){
       match++;
+      
+      // append combo color only if matched AND moved
+      /*
+      if(moved){
+        comboCol.append(parType);
+      }
+      */
     }
     
     // reset moved to false

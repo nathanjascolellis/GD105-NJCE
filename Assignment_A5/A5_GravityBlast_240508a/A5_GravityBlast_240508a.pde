@@ -5,6 +5,10 @@
 // mouse reactive move indicator
 // enable both drag/drop and key controls
 
+// game fonts
+PFont titleAgency;
+PFont bodyAgency;
+
 // game state variable
 int state = 0;
 
@@ -41,20 +45,19 @@ PImage[] blastEffects = new PImage[6];
 float timer = 61.0;
 float scoreTimeRate = 0.25;
 int prevSec = 0;
-int match = 0;
+float match = 0;
 int score = 0;
 boolean movingNow = false;
 boolean matchingNow = false;
 boolean refillingNow = false;
 
-// combo variables
+// combo variables and list
 float combo = 0.0;
-color comboCol = #000000;
-color pComboCol = #FFFFFF;
+IntList comboCol;
 boolean displayCombo = false;
 
 // button colors
-color buttonBase = color(0, 0);
+color buttonBase = color(0, 1);
 color buttonHLight = color(150, 150);
 
 // menu buttons
@@ -63,9 +66,16 @@ TitleButton mediSpeed = new TitleButton(0, -40, 375, 35, buttonBase, buttonHLigh
 TitleButton fastSpeed = new TitleButton(0, -0, 375, 35, buttonBase, buttonHLight, "Fast");
 TitleButton turboSpeed = new TitleButton(0, 40, 375, 35, buttonBase, buttonHLight, "Turbo");
 
+// particle color array
+color[] parCols = new color[7];
+
 void setup(){
   // set window size
   size(800,800);
+  
+  // load fonts
+  titleAgency = loadFont("AgencyFB-Bold-80.vlw");
+  bodyAgency = loadFont("AgencyFB-Bold-30.vlw");
   
   // add grid spaces to array
   for(i=0; i<64; i++){
@@ -85,6 +95,15 @@ void setup(){
   bgGradient = loadImage("BGGradient.png");
   partGradient = loadImage("particleGradient.png");
   
+  // loading particle color array
+  parCols[0] = #333333;
+  parCols[1] = #FF00BB;
+  parCols[2] = #FFFF00;
+  parCols[3] = #00FF00;
+  parCols[4] = #00FFFF;
+  parCols[5] = #FF7700;
+  parCols[6] = #BB00FF;
+  
   // loading blast effect list
   blastEffects[0] = loadImage("BlastEffect1.png");
   blastEffects[1] = loadImage("BlastEffect2.png");
@@ -92,6 +111,10 @@ void setup(){
   blastEffects[3] = loadImage("BlastEffect4.png");
   blastEffects[4] = loadImage("BlastEffect5.png");
   blastEffects[5] = loadImage("BlastEffect6.png");
+  
+  // initialize combo color list
+  comboCol = new IntList();
+  comboCol.append(0);
 }
 
 void draw(){
@@ -117,7 +140,7 @@ void draw(){
   if(state == 0){
     hStart = 0+anim;
     hFinish = 100;
-    w = 600;
+    w = 420;
     inc = 10;
     border(0, 0, hStart, w, 30);
     if(hStart < hFinish){
@@ -127,7 +150,7 @@ void draw(){
   if(state == 1){
     hStart = 0+anim;
     hFinish = 0;
-    w = 600;
+    w = 420;
     inc = 10;
     border(0, 0, hStart, w, 30);
     if(hStart > hFinish){
@@ -141,7 +164,7 @@ void draw(){
   // opening title - text
   if(state == 0 && hStart == hFinish){
     textAlign(CENTER);
-    textSize(90);
+    textFont(titleAgency);
     fill(255);
     text("GRAVITY BLAST", 0, 30);
   }
@@ -174,7 +197,7 @@ void draw(){
   // speed select - text and buttons
   if(state == 2 && hStart == hFinish){
     textAlign(CENTER);
-    textSize(30);
+    textFont(bodyAgency);
     fill(255);
     text("Select your Speed:", 0, -120);
     
@@ -207,6 +230,14 @@ void draw(){
   
   // update game objects
   if(state == 5){
+    // combo colors test
+    /*
+    textSize(20);
+    for(i=0; i<comboCol.size(); i++){
+      text(comboCol.get(i), 350, -240+(i*20));
+    }
+    */
+    
     // maintain border
     border(0, 0, 640, 640, 60);
     
@@ -241,7 +272,6 @@ void draw(){
           if(gravDir == "up" || gravDir == "left"){
             for(i=0; i<64; i++){
               if(gameParts[i].matched == true){
-                comboCol = gameParts[i].base;
                 gameParts[i].blastState = 1;
                 gameParts[i].refill();
               }
@@ -258,7 +288,6 @@ void draw(){
             // run checks in reverse during certain gravity states
             for(i=63; i>=0; i--){
               if(gameParts[i].matched == true){
-                comboCol = gameParts[i].base;
                 gameParts[i].blastState = 1;
                 gameParts[i].refill();
               }
@@ -272,19 +301,30 @@ void draw(){
               }
             }
           }
+          /* commented out combo meter code because it was taking too long to get working properly
           // if applicable, break combo
-          if(comboCol != pComboCol){
-            combo = 0.0;
+          if(comboCol.size() > 2){
+            if(!(comboCol.get(comboCol.size()-2) == comboCol.get(comboCol.size()-3) || comboCol.get(comboCol.size()-1) == comboCol.get(comboCol.size()-3))){
+              combo = 0.0;
+            }
+            // combo meter text indicator
+            if(comboCol.get(comboCol.size()-2) == comboCol.get(comboCol.size()-3) || comboCol.get(comboCol.size()-1) == comboCol.get(comboCol.size()-3)){
+              displayCombo = true;
+              comboCol.append(comboCol.get(comboCol.size()-3));
+              for(i=0; i<comboCol.size()-1; i++){
+                comboCol.remove(i);
+              }
+            } else {
+              displayCombo = false;
+            }
+          } else if(comboCol.size() == 2) {
+            if(comboCol.get(comboCol.size()-1) != comboCol.get(comboCol.size()-2)){
+              combo = 0.0;
+              displayCombo = false;
+            }
           }
-          combo += 1+(float(match)/10);
-          
-          // combo meter text
-          if(comboCol == pComboCol){
-            displayCombo = true;
-          } else {
-            displayCombo = false;
-          }
-          pComboCol = comboCol;
+          combo += 1+(match/10);
+          */
         }
         // reset matched status
         for(i=0; i<64; i++){
@@ -298,7 +338,7 @@ void draw(){
     if(displayCombo){
       textSize(35);
       textAlign(RIGHT);
-      fill(comboCol);
+      fill(parCols[comboCol.get(comboCol.size()-1)]);
       text(combo + "x Combo!", 320, -330);
     }
     
@@ -339,10 +379,11 @@ void draw(){
   if(state == 7 && hStart == 300){
     fill(255);
     noStroke();
+    textFont(titleAgency);
     textSize(50);
     textAlign(CENTER);
     text("Game Over.", 0, -100);
-    textSize(30);
+    textFont(bodyAgency);
     text("Final Score: " + score, 0, 0);
     text("Click anywhere to retry.", 0, 50);
   }
@@ -351,7 +392,7 @@ void draw(){
     // replay state -- resets everything and immediately jumps to title screen
     gravDir = "down";
     timer = 61.0;
-    scoreTimeRate = 0.25;
+    scoreTimeRate = 0.2;
     prevSec = 0;
     match = 0;
     score = 0;
@@ -359,8 +400,8 @@ void draw(){
     matchingNow = false;
     refillingNow = false;
     combo = 0.0;
-    comboCol = #000000;
-    pComboCol = #FFFFFF;
+    comboCol.clear();
+    comboCol.append(0);
     displayCombo = false;
     state = 0;
   }
@@ -372,15 +413,17 @@ void mouseClicked(){
   if(state == 2){
     if(slowSpeed.selected){
       timer = 121.0;
-      scoreTimeRate = 1;
+      scoreTimeRate = 0.4;
       state++;
     }
     if(mediSpeed.selected){
       timer = 91.0;
-      scoreTimeRate = 0.5;
+      scoreTimeRate = 0.3;
       state++;
     }
     if(fastSpeed.selected){
+      timer = 61.0;
+      scoreTimeRate = 0.2;
       state++;
     }
     if(turboSpeed.selected){
