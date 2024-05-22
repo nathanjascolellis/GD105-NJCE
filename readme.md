@@ -135,3 +135,17 @@ Assigment A42:
 // that type\'s symbol gets bigger
 // Create timeline with movable slider to look at different tournaments
 // Symbols are from Pokemon GO\'s Medal system
+
+Assignment A5 Gravity Blast:
+// Nathan Ellis 5/8/2024
+// THE PLAN IS SIMPLE:
+// grid space object array
+// particle object array
+// mouse reactive move indicator
+// enable both WASD and arrow key controls
+// gameplay similar to bejeweled: swap any particle with one in an adjacent square
+// if a match of 3 or more is made, those particles blast and are replaced
+// moving particles around changes the gravity direction
+// gravity direction determines where refilling particles will come from
+// there is a timer with four difficulty settings
+// once the timer reaches 0, the game is over and the final score is shown

@@ -3,7 +3,13 @@
 // grid space object array
 // particle object array
 // mouse reactive move indicator
-// enable both drag/drop and key controls
+// enable both WASD and arrow key controls
+// gameplay similar to bejeweled: swap any particle with one in an adjacent square
+// if a match of 3 or more is made, those particles blast and are replaced
+// moving particles around changes the gravity direction
+// gravity direction determines where refilling particles will come from
+// there is a timer with four difficulty settings
+// once the timer reaches 0, the game is over and the final score is shown
 
 // game fonts
 PFont titleAgency;
