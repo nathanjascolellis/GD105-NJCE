@@ -21,7 +21,10 @@ class GridSpace{
       if(colState < 1.0){
         colState += 0.1;
       }
-    } else if((abs(selectX-posX-(width/2)) < 40 && abs(selectY-posY-(height/2)) < 120) || (abs(selectX-posX-(width/2)) < 120 && abs(selectY-posY-(height/2)) < 40)){
+    } else if((abs(selectX-posX-(width/2)) < 40 
+              && abs(selectY-posY-(height/2)) < 120) 
+              || (abs(selectX-posX-(width/2)) < 120 
+              && abs(selectY-posY-(height/2)) < 40)){
       if(colState < 0.5){
         colState += 0.1;
       } else if(colState > 0.5){

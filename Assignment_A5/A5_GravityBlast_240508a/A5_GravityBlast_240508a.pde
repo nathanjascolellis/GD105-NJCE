@@ -451,9 +451,13 @@ void mouseClicked(){
 
 // key pressed actions
 void keyPressed(){ 
+  if (key == ESC) {
+    key = 0;  // Fools! don't let them escape!
+  }
+  
   if(key == '1'){
     // screenshot button for testing purposes
-    saveFrame("frames/##.png");
+    // saveFrame("frames/##.png");
   } else if(state == 5 && movingNow == false){
     // move a particle if gameplay is happening 
     for(i=0; i<64; i++){
